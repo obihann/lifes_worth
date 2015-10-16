@@ -1,5 +1,5 @@
 from idea import Idea
-from utils import indent
+from utils.indent import Indent
 
 class Person:
     def __init__(self, name):
@@ -17,13 +17,32 @@ class Person:
     def newIdea(self, title, desc, diff):
         self._ideas.append(Idea(title, desc, diff))
 
+    def _findIdea(self, name, pos = 0):
+        if len(self._ideas) == 0:
+            return None
+        elif self._ideas[pos].title == name:
+            return self._ideas[pos]
+        elif pos+1 >= len(self._ideas):
+            return None
+        else:
+            return self._findIdea(name, pos+1)
+
+    def findIdea(self, name):
+        return self._findIdea(name)
+
     def __str__(self):
         ideasStr = ""
+        indent = Indent("   ")
 
-        for idea in self.ideas:
-            ideaStr = "%s" % idea
-            ideasStr += ideaStr
+        for pos, idea in enumerate(self._ideas):
+            ideasStr += "(%d) %s\n" % (pos+1, idea)
 
-        ideaStr = indent.indentBlock(ideaStr)
+        ideasStr = indent.block(ideasStr)
 
-        return "Name: %s \nIdeas: \n%s" % (self._name, ideaStr)
+        score = 0
+        for idea in self._ideas:
+            score += idea.score()
+
+        return """Name: %s
+Score: %d
+Ideas (%d): \n%s""" % (self._name, score, len(self._ideas), ideasStr)
