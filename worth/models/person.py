@@ -1,20 +1,34 @@
+import json
 from idea import Idea
 from utils.indent import Indent
 
 class Person:
-    def __init__(self, name):
-        self._name = name
+    def __init__(self, data):
+        """
+        initialize a new person
+        """
+
+        self._name = data
         self._ideas = []
 
     @property
     def name(self):
+        """
+        return name of the person
+        """
         return self._name
 
     @property
     def ideas(self):
+        """
+        return the list of ideas for the person
+        """
         return self._ideas
 
     def newIdea(self, title, desc, diff):
+        """
+        add a new idea
+        """
         self._ideas.append(Idea(title, desc, diff))
 
     def _findIdea(self, name, pos = 0):
@@ -28,9 +42,15 @@ class Person:
             return self._findIdea(name, pos+1)
 
     def findIdea(self, name):
+        """
+        return an idea by title
+        """
         return self._findIdea(name)
 
     def __str__(self):
+        """
+        return the person in a formatted string
+        """
         ideasStr = ""
         indent = Indent("   ")
 

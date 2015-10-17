@@ -1,93 +1,107 @@
 from utils import indent
+import json
 import time
 
 class Idea:
     def __init__(self, title, desc, diff):
+        """
+        initialize a new idea
+        """
         self._title      = title
         self._desc       = desc
         self._difficulty = diff
-        self._started    = 0
-        self._completed  = 0
-        self._progress   = 0
+        self._started    = None
+        self._completed  = None
 
     @property
     def title(self):
+        """
+        return the title of the idea
+        """
         return self._title
 
     @title.setter
     def title(self, value):
+        """
+        set the title of the idea"
+        """
         self._title = val  
 
     @property
     def desc(self):
+        """
+        return the description of the idea
+        """
         return self._desc
 
     @desc.setter
     def desc(self, value):
+        """
+        set the description of the idea
+        """
         self._desc = value
 
     @property
     def difficulty(self):
+        """
+        return the difficulty of the idea
+        """
         return self._difficulty
 
     @difficulty.setter
     def difficulty(self, value):
+        """
+        set the difficulty of the idea
+        """
         self._difficulty = value
 
     @property
     def started(self):
+        """
+        return the started date of the idea
+        """
         return self._started
-
-    @started.setter
-    def started(self, value):
-        self._started = value
 
     @property
     def completed(self):
+        """
+        return the completed date of the idea
+        """
         return self._completed
 
-    @completed.setter
-    def completed(self, value):
-        self._completed = value
+    def start(self):
+        if self._started == None:
+            self._started = time.time()
 
-    @property
-    def progress(self):
-        return self._progress
+    def complete(self):
+        self.start()
 
-    @progress.setter
-    def progress(self, value):
-        if self._started == 0:
-            self.start()
-
-        self._progress = value
+        if self._completed == None:
+            self._completed = time.time()
 
     def score(self):
+        """
+        return the current score of the idea
+        """
         score = self._difficulty * 50
         
-        if self._started != 0:
+        if self._started != None:
             score = score / 2
 
-        if self._completed != 0:
+        if self._completed != None:
             score = score * 2
 
         return score
 
-    def start(self):
-        self._started = time.time()
-
-    def finish(self):
-        if self._started == 0:
-            self.start()
-
-        self._progress = 100
-        self._completed = time.time()
-
     def __str__(self):
+        """
+        return the idea in a formatted string
+        """
         status = "not started"
         
-        if self._started != 0 and self._completed != 0:
+        if self._started != None and self._completed != None:
             status = "completed"
-        elif self._started != 0:
+        elif self._started != None:
             status = "started"
 
         ideas = indent.block("""+ Difficulity: %d 
