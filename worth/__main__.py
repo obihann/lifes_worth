@@ -1,0 +1,3 @@
+import worth
+
+worth.main()
