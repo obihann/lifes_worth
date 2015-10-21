@@ -4,3 +4,6 @@ python:
 install:
     - pip install -e .
 script: py.test
+notifications:
+  email:
+    - jeffhann@gmail.com 
