@@ -12,7 +12,6 @@ class Person(object):
 
     @classmethod
     def load(cls, obj):
-        print(obj)
         """
         load json data
         """

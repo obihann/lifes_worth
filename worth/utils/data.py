@@ -5,8 +5,6 @@ def load(src, cls):
         target = open("worth/data/%s.json" % src, 'r')
         data = target.read()
 
-        print(data)
-
         return json.loads(data, object_hook=cls.load)
     except IOError as e:
         print("I/O error: {1}" % e.strerror)
