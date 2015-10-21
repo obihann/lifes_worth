@@ -97,6 +97,9 @@ class Idea(object):
 
         return score
 
+    def as_dict(self):
+        return self.__dict__
+
     def __str__(self):
         """
         return the idea in a formatted string

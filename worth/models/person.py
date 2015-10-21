@@ -12,6 +12,7 @@ class Person(object):
 
     @classmethod
     def load(cls, obj):
+        print(obj)
         """
         load json data
         """
@@ -21,6 +22,12 @@ class Person(object):
             print("JSON is invalid")
         except KeyError as e:
             print("Invalid key: %s" % e)
+
+    def addIdea(self, idea):
+        """
+        add an existing idea
+        """
+        self.ideas.append(idea)
 
     def newIdea(self, title, desc, diff):
         """
@@ -40,6 +47,16 @@ class Person(object):
             return None
         else:
             return self.findIdea(name, pos+1)
+
+    def as_dict(self):
+        dict = {}
+        dict["name"] = self.name
+        dict["ideas"] = []
+
+        for idea in self.ideas:
+            dict["ideas"].append(idea.as_dict())
+
+        return dict
 
     def __str__(self):
         """

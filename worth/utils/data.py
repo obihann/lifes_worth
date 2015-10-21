@@ -5,11 +5,13 @@ def load(src, cls):
         target = open("worth/data/%s.json" % src, 'r')
         data = target.read()
 
+        print(data)
+
         return json.loads(data, object_hook=cls.load)
     except IOError as e:
-        print "I/O error: {1}" % e.strerror
+        print("I/O error: {1}" % e.strerror)
 
 def save(data, src):
     target = open("worth/data/%s.json" % src, 'w')
-    target.write(json.dumps(data))
+    target.write(json.dumps(data.as_dict()))
     target.close()
