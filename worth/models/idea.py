@@ -7,8 +7,8 @@ class Idea:
         """
         initialize a new idea
         """
-        self._title      = title
-        self._desc       = desc
+        self.title       = title
+        self.desc        = desc
         self._difficulty = diff
         self._started    = None
         self._completed  = None
@@ -16,39 +16,11 @@ class Idea:
     @classmethod
     def load(cls, obj):
         try:
-            return Idea(obj["_title"], obj["_desc"], obj["_difficulty"])
+            return Idea(obj["title"], obj["desc"], obj["_difficulty"])
         except ValueError:
             print "JSON is invalid"
         except KeyError as e:
             print "Invalid key: %s" % e
-
-    @property
-    def title(self):
-        """
-        return the title of the idea
-        """
-        return self._title
-
-    @title.setter
-    def title(self, value):
-        """
-        set the title of the idea"
-        """
-        self._title = val  
-
-    @property
-    def desc(self):
-        """
-        return the description of the idea
-        """
-        return self._desc
-
-    @desc.setter
-    def desc(self, value):
-        """
-        set the description of the idea
-        """
-        self._desc = value
 
     @property
     def difficulty(self):
@@ -62,7 +34,11 @@ class Idea:
         """
         set the difficulty of the idea
         """
-        self._difficulty = value
+
+        if value >= 0 and value <= 10:
+            self._difficulty = value
+        else:
+            raise ValueError("difficulty should be between 0 and 10")
 
     @property
     def started(self):
@@ -71,6 +47,19 @@ class Idea:
         """
         return self._started
 
+    @started.setter
+    def started(self, value):
+        """
+        set the stated date of the idea
+        """
+        if value == True:
+            if self._started == None:
+                self._started = time.time()
+        elif value == False:
+            self._started = None
+        else:
+            raise ValueError("expected True or False")
+
     @property
     def completed(self):
         """
@@ -78,15 +67,21 @@ class Idea:
         """
         return self._completed
 
-    def start(self):
-        if self._started == None:
-            self._started = time.time()
+    @completed.setter
+    def completed(self, value):
+        """
+        set the completed date of the idea
+        """
+        if value == True:
+            if self._started == None:
+                self._completed = time.time()
 
-    def complete(self):
-        self.start()
-
-        if self._completed == None:
-            self._completed = time.time()
+            if self._completed == None:
+                self._completed = time.time()
+        elif value == False:
+            self._completed = None
+        else:
+            raise ValueError("expected True or False")
 
     def score(self):
         """
@@ -116,6 +111,6 @@ class Idea:
         ideas = indent.block("""+ Difficulity: %d 
 + Score: %d/%d
 + Description: %s
-+ Status: %s""" % (self._difficulty, self.score(), self._difficulty * 100, self._desc, status), "   ")
++ Status: %s""" % (self.difficulty, self.score(), self.difficulty * 100, self.desc, status), "   ")
 
-        return "%s \n%s" % (self._title, ideas)
+        return "%s \n%s" % (self.title, ideas)
