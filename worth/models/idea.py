@@ -13,6 +13,15 @@ class Idea:
         self._started    = None
         self._completed  = None
 
+    @classmethod
+    def load(cls, obj):
+        try:
+            return Idea(obj["_title"], obj["_desc"], obj["_difficulty"])
+        except ValueError:
+            print "JSON is invalid"
+        except KeyError as e:
+            print "Invalid key: %s" % e
+
     @property
     def title(self):
         """

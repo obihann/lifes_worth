@@ -3,13 +3,22 @@ from idea import Idea
 from utils.indent import Indent
 
 class Person:
-    def __init__(self, data):
+    def __init__(self, data, ideas = []):
         """
         initialize a new person
         """
 
         self._name = data
-        self._ideas = []
+        self._ideas = ideas
+
+    @classmethod
+    def load(cls, obj):
+        try:
+            return Person(obj["_name"])
+        except ValueError:
+            print "JSON is invalid"
+        except KeyError as e:
+            print "Invalid key: %s" % e
 
     @property
     def name(self):
@@ -66,3 +75,6 @@ class Person:
         return """Name: %s
 Score: %d
 Ideas (%d): \n%s""" % (self._name, score, len(self._ideas), ideasStr)
+
+    def __dict__(self):
+        return dict(name=self._name)

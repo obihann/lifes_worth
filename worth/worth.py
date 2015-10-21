@@ -1,6 +1,4 @@
-import json
 from models.person import Person
-from models.idea import Idea
 
 def main():
     jeff = Person("Jeff")
