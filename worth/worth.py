@@ -6,4 +6,6 @@ def main():
     jeff.newIdea("Dress yourself", "Find some clothes", 4)
     jeff.newIdea("Fear the Dice", "A D&D Helper", 8)
 
-    print jeff
+    idea = jeff.findIdea("Fear the Dice")
+
+    print idea

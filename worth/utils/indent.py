@@ -11,7 +11,7 @@ def block(value, indent = "\t"):
 
     return string.join(split, "\n")
 
-class Indent:
+class Indent(object):
     def __init__(self, indent = "\t"):
         self._indent = indent
 

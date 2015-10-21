@@ -2,7 +2,7 @@ from utils import indent
 import json
 import time
 
-class Idea:
+class Idea(object):
     def __init__(self, title, desc, diff):
         """
         initialize a new idea

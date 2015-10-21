@@ -2,59 +2,44 @@ import json
 from idea import Idea
 from utils.indent import Indent
 
-class Person:
+class Person(object):
     def __init__(self, data, ideas = []):
         """
         initialize a new person
         """
-
-        self._name = data
-        self._ideas = ideas
+        self.name = data
+        self.ideas = ideas
 
     @classmethod
     def load(cls, obj):
+        """
+        load json data
+        """
         try:
-            return Person(obj["_name"])
+            return Person(obj["name"])
         except ValueError:
             print "JSON is invalid"
         except KeyError as e:
             print "Invalid key: %s" % e
 
-    @property
-    def name(self):
-        """
-        return name of the person
-        """
-        return self._name
-
-    @property
-    def ideas(self):
-        """
-        return the list of ideas for the person
-        """
-        return self._ideas
-
     def newIdea(self, title, desc, diff):
         """
         add a new idea
         """
-        self._ideas.append(Idea(title, desc, diff))
+        self.ideas.append(Idea(title, desc, diff))
 
-    def _findIdea(self, name, pos = 0):
-        if len(self._ideas) == 0:
-            return None
-        elif self._ideas[pos].title == name:
-            return self._ideas[pos]
-        elif pos+1 >= len(self._ideas):
-            return None
-        else:
-            return self._findIdea(name, pos+1)
-
-    def findIdea(self, name):
+    def findIdea(self, name, pos = 0):
         """
         return an idea by title
         """
-        return self._findIdea(name)
+        if len(self.ideas) == 0:
+            return None
+        elif self.ideas[pos].title == name:
+            return self.ideas[pos]
+        elif pos+1 >= len(self.ideas):
+            return None
+        else:
+            return self.findIdea(name, pos+1)
 
     def __str__(self):
         """
@@ -63,18 +48,18 @@ class Person:
         ideasStr = ""
         indent = Indent("   ")
 
-        for pos, idea in enumerate(self._ideas):
+        for pos, idea in enumerate(self.ideas):
             ideasStr += "(%d) %s\n" % (pos+1, idea)
 
         ideasStr = indent.block(ideasStr)
 
         score = 0
-        for idea in self._ideas:
+        for idea in self.ideas:
             score += idea.score()
 
         return """Name: %s
 Score: %d
-Ideas (%d): \n%s""" % (self._name, score, len(self._ideas), ideasStr)
+Ideas (%d): \n%s""" % (self.name, score, len(self.ideas), ideasStr)
 
     def __dict__(self):
-        return dict(name=self._name)
+        return dict(name=self.name)

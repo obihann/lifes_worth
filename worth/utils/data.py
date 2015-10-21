@@ -11,7 +11,5 @@ def load(src, cls):
 
 def save(data, src):
     target = open("worth/data/%s.json" % src, 'w')
-    target.truncate()
     target.write(json.dumps(data))
     target.close()
-
