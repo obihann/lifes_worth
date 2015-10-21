@@ -1,4 +1,5 @@
 import json
+from worth.utils import data
 from worth.models.idea import Idea
 from worth.utils.indent import Indent
 
@@ -11,16 +12,41 @@ class Person(object):
         self.ideas = ideas
 
     @classmethod
-    def load(cls, obj):
+    def loadJSON(cls, obj):
         """
         load json data
         """
+
+        if "__type__" in obj and obj["__type__"] == "Person":
+            try:
+                person =  Person(obj["name"])
+                if "ideas" in obj:
+                    for idea in obj["ideas"]:
+                        person.addIdea(Idea.loadJSON(idea))
+
+                return person
+            except ValueError:
+                print("JSON is invalid")
+            except KeyError as e:
+                print("Invalid key: %s" % e)
+
+    @classmethod
+    def load(cls, obj):
+        """
+        load from a file
+        """
         try:
-            return Person(obj["name"])
-        except ValueError:
-            print("JSON is invalid")
-        except KeyError as e:
-            print("Invalid key: %s" % e)
+            target = open("worth/data/%s.json" % obj, "r")
+            data = target.read()
+            person = json.loads(data)
+            person = Person.loadJSON(person)
+
+            return person 
+        except IOError as e:
+            print("I/O error: {1}" % e.strerror)
+
+    def save(self):
+        data.save(self, self.name)
 
     def addIdea(self, idea):
         """
@@ -48,14 +74,18 @@ class Person(object):
             return self.findIdea(name, pos+1)
 
     def as_dict(self):
-        dict = {}
-        dict["name"] = self.name
-        dict["ideas"] = []
+        custom_dict = {}
+        custom_dict["__type__"] = "Person"
+        custom_dict["name"] = self.name
+
+        ideas = []
 
         for idea in self.ideas:
-            dict["ideas"].append(idea.as_dict())
+            ideas.append(idea.as_dict())
 
-        return dict
+        custom_dict["ideas"] = ideas
+
+        return custom_dict
 
     def __str__(self):
         """
@@ -76,6 +106,3 @@ class Person(object):
         return """Name: %s
 Score: %d
 Ideas (%d): \n%s""" % (self.name, score, len(self.ideas), ideasStr)
-
-    def __dict__(self):
-        return dict(name=self.name)

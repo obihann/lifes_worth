@@ -15,3 +15,9 @@ def test_newIdea():
     idea = person.findIdea(title)
 
     assert idea.title == title
+
+#def test_as_dict():
+
+#def test_save():
+
+#def test_load():

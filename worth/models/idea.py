@@ -1,3 +1,4 @@
+from worth.utils import data
 from worth.utils import indent
 import json
 import time
@@ -14,13 +15,29 @@ class Idea(object):
         self._completed  = None
 
     @classmethod
+    def loadJSON(cls, obj):
+        if "__type__" in obj and obj["__type__"] == "Idea":
+            try:
+                return Idea(obj["title"], obj["desc"], obj["_difficulty"])
+            except ValueError:
+                print("JSON is invalid")
+            except KeyError as e:
+                print("Invalid key: %s" % e)
+
+    def save(self):
+        data.save(self, self.title)
+
+    @classmethod
     def load(cls, obj):
+        """
+        load from a file
+        """
         try:
-            return Idea(obj["title"], obj["desc"], obj["_difficulty"])
-        except ValueError:
-            print("JSON is invalid")
-        except KeyError as e:
-            print("Invalid key: %s" % e)
+            target = open("worth/data/%s.json" % obj)
+            person = json.load(target, object_hook=cls.loadJSON)
+            return person 
+        except IOError as e:
+            print("I/O error: {1}" % e.strerror)
 
     @property
     def difficulty(self):
@@ -74,7 +91,7 @@ class Idea(object):
         """
         if value is True:
             if self._started is None:
-                self._completed = time.time()
+                self._started = time.time()
 
             if self._completed is None:
                 self._completed = time.time()
@@ -98,7 +115,10 @@ class Idea(object):
         return score
 
     def as_dict(self):
-        return self.__dict__
+        custom_dict = self.__dict__
+        custom_dict["__type__"] = "Idea"
+
+        return custom_dict
 
     def __str__(self):
         """

@@ -4,7 +4,5 @@ from worth.utils import data
 import json
 
 def main():
-    jeff = Person("Jeff")
-    jeff.addIdea(data.load("idea",Idea))
-
+    jeff = Person.load("Jeff")
     print(jeff)
