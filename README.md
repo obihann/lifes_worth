@@ -1,4 +1,6 @@
 [![GitHub license](https://img.shields.io/github/license/obihann/lifes-worth.svg)](https://github.com/obihann/lifes-worth/blob/master/LICENSE)
+[![Build Status](https://travis-ci.org/obihann/lifes-worth.svg?branch=develop)](https://travis-ci.org/obihann/lifes-worth)
+
 # Your Lifes Worth
 
 [![logo](https://raw.githubusercontent.com/obihann/lifes_worth/develop/icon.png)]()
