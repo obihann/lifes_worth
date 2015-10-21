@@ -1,6 +1,6 @@
 import json
-from idea import Idea
-from utils.indent import Indent
+from worth.models.idea import Idea
+from worth.utils.indent import Indent
 
 class Person(object):
     def __init__(self, data, ideas = []):
@@ -18,9 +18,9 @@ class Person(object):
         try:
             return Person(obj["name"])
         except ValueError:
-            print "JSON is invalid"
+            print("JSON is invalid")
         except KeyError as e:
-            print "Invalid key: %s" % e
+            print("Invalid key: %s" % e)
 
     def newIdea(self, title, desc, diff):
         """

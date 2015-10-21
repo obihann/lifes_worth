@@ -1,4 +1,4 @@
-from utils import indent
+from worth.utils import indent
 import json
 import time
 
@@ -18,9 +18,9 @@ class Idea(object):
         try:
             return Idea(obj["title"], obj["desc"], obj["_difficulty"])
         except ValueError:
-            print "JSON is invalid"
+            print("JSON is invalid")
         except KeyError as e:
-            print "Invalid key: %s" % e
+            print("Invalid key: %s" % e)
 
     @property
     def difficulty(self):
@@ -52,10 +52,10 @@ class Idea(object):
         """
         set the stated date of the idea
         """
-        if value == True:
-            if self._started == None:
+        if value is True:
+            if self._started is None:
                 self._started = time.time()
-        elif value == False:
+        elif value is False:
             self._started = None
         else:
             raise ValueError("expected True or False")
@@ -72,13 +72,13 @@ class Idea(object):
         """
         set the completed date of the idea
         """
-        if value == True:
-            if self._started == None:
+        if value is True:
+            if self._started is None:
                 self._completed = time.time()
 
-            if self._completed == None:
+            if self._completed is None:
                 self._completed = time.time()
-        elif value == False:
+        elif value is False:
             self._completed = None
         else:
             raise ValueError("expected True or False")

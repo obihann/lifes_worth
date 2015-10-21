@@ -1,4 +1,4 @@
-from models.person import Person
+from worth.models.person import Person
 
 def main():
     jeff = Person("Jeff")
@@ -8,4 +8,4 @@ def main():
 
     idea = jeff.findIdea("Fear the Dice")
 
-    print idea
+    print(idea)

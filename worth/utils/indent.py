@@ -1,15 +1,13 @@
-import string
-
 def line(value, indent = "\t"):
     return "%s%s" % (indent, value)
 
 def block(value, indent = "\t"):
-    split = string.split(value, "\n")
+    split = value.split("\n")
 
     for x, row in enumerate(split):
         split[x] = line(row, indent)
 
-    return string.join(split, "\n")
+    return "\n".join(split)
 
 class Indent(object):
     def __init__(self, indent = "\t"):
