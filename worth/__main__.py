@@ -1,3 +1,3 @@
-from worth.worth import main
+from worth.worth import Main
 
-main()
+main = Main()

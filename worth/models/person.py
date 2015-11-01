@@ -42,6 +42,8 @@ class Person(object):
             person = Person.loadJSON(person)
 
             return person 
+        except FileNotFoundError:
+            print("No user by that name could be found")
         except IOError as e:
             print("I/O error: {1}" % e.strerror)
 
